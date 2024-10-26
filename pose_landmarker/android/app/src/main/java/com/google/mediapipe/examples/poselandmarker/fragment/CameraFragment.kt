@@ -17,12 +17,14 @@ package com.google.mediapipe.examples.poselandmarker.fragment
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
@@ -122,6 +124,24 @@ class CameraFragment : Fragment(), PoseLandmarkerHelper.LandmarkerListener {
 
         return fragmentCameraBinding.root
     }
+    private fun initializeVideoPlayer() {
+        // Get the VideoView from the binding
+        val videoView = fragmentCameraBinding.videoView
+
+        // Set the video URI (assuming video1.mp4 is in the raw resources)
+        val videoUri: Uri = Uri.parse("android.resource://${requireContext().packageName}/raw/video1")
+
+        // Set the video URI to the VideoView
+        videoView.setVideoURI(videoUri)
+
+        // Create a MediaController to control playback
+        val mediaController = MediaController(requireContext())
+        mediaController.setAnchorView(videoView)
+        videoView.setMediaController(mediaController)
+
+        // Start playing the video
+        videoView.start()
+    }
 
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -151,6 +171,7 @@ class CameraFragment : Fragment(), PoseLandmarkerHelper.LandmarkerListener {
 
         // Attach listeners to UI control widgets
         initBottomSheetControls()
+        initializeVideoPlayer()
     }
 
     private fun initBottomSheetControls() {
