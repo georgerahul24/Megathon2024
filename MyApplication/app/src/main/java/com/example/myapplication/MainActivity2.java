@@ -11,6 +11,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.widget.VideoView;
@@ -29,6 +30,7 @@ public class MainActivity2 extends AppCompatActivity {
     private TextureView textureView;
     private CameraDevice cameraDevice;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +40,10 @@ public class MainActivity2 extends AppCompatActivity {
         textureView = findViewById(R.id.textureView);
 
         // Play a video in videoView1
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video1);
-        videoView1.setVideoURI(videoUri);
+        String videouri = getIntent().getStringExtra("VIDEO_URI");
+        videoView1.setVideoURI(Uri.parse(videouri)); // Use the Uri here
+        videoView1.setOnPreparedListener(mp -> videoView1.start());
+
         videoView1.setOnPreparedListener(mp -> videoView1.start());
 
         // Check and request camera permission
@@ -50,6 +54,18 @@ public class MainActivity2 extends AppCompatActivity {
         } else {
             openCamera();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {  // Detect touch event
+            if (videoView1.isPlaying()) {
+                videoView1.pause();  // Pause if playing
+            } else {
+                videoView1.start();  // Resume if paused
+            }
+        }
+        return super.onTouchEvent(event);
     }
 
     // Handle user's permission response

@@ -4,21 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Title or Description for the ListView (optional) -->
+    <!-- Title or Description for the ListView -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Select an Item"
+        android:text="Select the Yoga"
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center"/>
+
+    <!-- Record Button -->
+    <Button
+        android:id="@+id/recordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="Record New Video"
+        android:layout_marginBottom="16dp"/>
 
     <!-- ListView to display selectable items -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
         android:padding="16dp" />
