@@ -64,7 +64,7 @@ class CameraFragment : Fragment(), PoseLandmarkerHelper.LandmarkerListener {
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
-    private var cameraFacing = CameraSelector.LENS_FACING_BACK
+    private var cameraFacing = CameraSelector.LENS_FACING_FRONT
 
     /** Blocking ML operations are performed using this executor */
     private lateinit var backgroundExecutor: ExecutorService
@@ -404,6 +404,11 @@ class CameraFragment : Fragment(), PoseLandmarkerHelper.LandmarkerListener {
             if (_fragmentCameraBinding != null) {
                 fragmentCameraBinding.bottomSheetLayout.inferenceTimeVal.text =
                     String.format("%d ms", resultBundle.inferenceTime)
+
+                val overlayWidth = fragmentCameraBinding.viewFinder.width
+                val overlayHeight = fragmentCameraBinding.viewFinder.height
+                fragmentCameraBinding.overlay.layoutParams.width = overlayWidth
+                fragmentCameraBinding.overlay.layoutParams.height = overlayHeight
 
                 // Pass necessary information to OverlayView for drawing on the canvas
                 fragmentCameraBinding.overlay.setResults(
