@@ -38,6 +38,10 @@ public class MainActivity3 extends AppCompatActivity {
         videoView1 = findViewById(R.id.videoView1);
         textureView = findViewById(R.id.textureView);
 
+        // Play a video in videoView1
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video2);
+        videoView1.setVideoURI(videoUri);
+        videoView1.setOnPreparedListener(mp -> videoView1.start());
 
         // Check and request camera permission
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
