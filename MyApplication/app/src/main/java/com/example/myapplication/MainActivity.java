@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recordButton.setOnClickListener(v -> checkPermissionsAndRecord());
+
+        // Load saved video paths
+        loadSavedVideos();
     }
 
     private void checkPermissionsAndRecord() {
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             // Verify the file was created and has content
             if (outputFile.exists() && outputFile.length() > 0) {
                 String videoPath = outputFile.getAbsolutePath();
-                String itemName = "Yoga " + (items.size() + 1);
+                String itemName = "Yoga " + nextVideoNumber; // Use nextVideoNumber for item name
 
                 // Add new yoga item to the list with its file path
                 addItem(itemName, videoPath);
@@ -170,7 +174,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Video saved successfully",
                         Toast.LENGTH_SHORT).show();
 
+                // Increment nextVideoNumber only after a successful save
                 nextVideoNumber++;
+
+                // Save the video path to SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("VideoPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("video_" + (nextVideoNumber - 1), videoPath); // Store with the correct index
+                editor.putInt("video_count", nextVideoNumber - 1); // Update count correctly
+                editor.apply();
             } else {
                 Toast.makeText(this, "Error: Video file is empty or not created",
                         Toast.LENGTH_LONG).show();
@@ -203,5 +215,16 @@ public class MainActivity extends AppCompatActivity {
     private void addItem(String item, String videoPath) {
         items.add(item);
         videoPathMap.put(item, videoPath);
+    }
+
+    private void loadSavedVideos() {
+        SharedPreferences sharedPreferences = getSharedPreferences("VideoPrefs", MODE_PRIVATE);
+        int count = sharedPreferences.getInt("video_count", 0);
+        for (int i = 1; i <= count; i++) {
+            String videoPath = sharedPreferences.getString("video_" + i, null);
+            if (videoPath != null) {
+                addItem("Yoga " + i, videoPath);
+            }
+        }
     }
 }
