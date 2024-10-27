@@ -45,10 +45,13 @@
             android:layout_alignParentTop="true"
             android:background="@color/toolbar_background">
 
-            <ImageView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/media_pipe_banner" />
+                android:text="deeznerdz"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textColor="@android:color/black" />
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
