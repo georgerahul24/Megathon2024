@@ -35,7 +35,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
     private var pointPaint = Paint()
     private var linePaint = Paint()
 
-    private var scaleFactor: Float = 1f
+    private var scaleFactor: Float = 0.2f
     private var imageWidth: Int = 1
     private var imageHeight: Int = 1
 
@@ -94,8 +94,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
     ) {
         results = poseLandmarkerResults
 
-        this.imageHeight = imageHeight
-        this.imageWidth = imageWidth
+        this.imageHeight = imageHeight/4
+        this.imageWidth = imageWidth/4
 
         scaleFactor = when (runningMode) {
             RunningMode.IMAGE,

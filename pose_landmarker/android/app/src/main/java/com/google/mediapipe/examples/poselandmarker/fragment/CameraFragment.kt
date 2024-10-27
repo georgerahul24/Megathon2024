@@ -407,8 +407,8 @@ class CameraFragment : Fragment(), PoseLandmarkerHelper.LandmarkerListener {
 
                 val overlayWidth = fragmentCameraBinding.viewFinder.width
                 val overlayHeight = fragmentCameraBinding.viewFinder.height
-                fragmentCameraBinding.overlay.layoutParams.width = overlayWidth
-                fragmentCameraBinding.overlay.layoutParams.height = overlayHeight
+                fragmentCameraBinding.overlay.layoutParams.width = overlayWidth/2
+                fragmentCameraBinding.overlay.layoutParams.height = overlayHeight/2
 
                 // Pass necessary information to OverlayView for drawing on the canvas
                 fragmentCameraBinding.overlay.setResults(
